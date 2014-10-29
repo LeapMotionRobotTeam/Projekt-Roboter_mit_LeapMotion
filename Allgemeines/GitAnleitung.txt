@@ -1,0 +1,19 @@
+1) Wechseln in gewünschtes Repository
+2) Datei in Explorer in gewünschten Ordner kopieren
+3) Mit >>git add datei.extension<< Datei zu Git-Repository hinzufügen
+4) Mit >>git commit -m "message"<< Änderungen speichern
+5) mit >>git push origin master<< Änderungen bzw. Datei hochladen
+
+Mit >>git status<< kann nachgesehen werden, ob es Dateien gibt, die im Git-Repository
+noch nicht "committed" wurden.
+
+
+Löschen einer Datei erfolgt im Explorer grafisch. Auf Datei klicken, rechts auf Papierkorb und folgich
+weiter unten bestätigen. 
+
+
+Um eine Datei upzudaten ist diese im Explorer zu überschreiben. Anschließend erkennt Git, dass die Datei
+im Explorer und im Repository unterschiedlich sind. Durch die üblichen Schritte (git add, git commit,
+git push) wird diese Datei upgedated. 
+
+Wenn diverged branches: git reset --hard origin/master
