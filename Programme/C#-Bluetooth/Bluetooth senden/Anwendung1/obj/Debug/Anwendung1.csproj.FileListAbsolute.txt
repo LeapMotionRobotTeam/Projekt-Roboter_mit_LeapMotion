@@ -1,6 +1,0 @@
-D:\Schule\5bHWII\PPM\Köllö\C#-Bluetooth\Bluetooth senden\Anwendung1\bin\Debug\Anwendung1.exe.config
-D:\Schule\5bHWII\PPM\Köllö\C#-Bluetooth\Bluetooth senden\Anwendung1\bin\Debug\Anwendung1.exe
-D:\Schule\5bHWII\PPM\Köllö\C#-Bluetooth\Bluetooth senden\Anwendung1\bin\Debug\Anwendung1.pdb
-D:\Schule\5bHWII\PPM\Köllö\C#-Bluetooth\Bluetooth senden\Anwendung1\obj\Debug\Anwendung1.csprojResolveAssemblyReference.cache
-D:\Schule\5bHWII\PPM\Köllö\C#-Bluetooth\Bluetooth senden\Anwendung1\obj\Debug\Anwendung1.exe
-D:\Schule\5bHWII\PPM\Köllö\C#-Bluetooth\Bluetooth senden\Anwendung1\obj\Debug\Anwendung1.pdb
