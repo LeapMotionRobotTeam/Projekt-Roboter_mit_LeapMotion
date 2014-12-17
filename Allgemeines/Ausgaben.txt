@@ -1,0 +1,5 @@
+Bluetooth USB Adapter			16,69€
+Bluetooth Modul Arduino HC05		12,35€
+USB B zu USB A - Kabel			 4,99€
+-----------------------------------------------
+Summe					34,03€
