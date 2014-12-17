@@ -35,9 +35,81 @@ namespace LeapMotionRobot
             //////////////////////////////////// CODE SIMULATION UND SENDEN DES CODES (WENN LEAP MOTION FEHLT) - 
             // unbedingt entfernen wenn Daten über LeapMotion eingelesen werden sollen ///////////////////////////////////////////////
 
+          //  GenerateRandomCodes();
+
+            GenerateTestLauf();
+
+            //////////////////////////////// SIMULATION ENDE //////////////////////////////////////
+
+        }
+
+        private void GenerateTestLauf()
+        {
+            GenerateTestCode(0, 0);
+
+            // vor
+            for (int i = 0; i < 10; i++)
+            {
+                GenerateTestCode(-50, 0);
+            }
+
+            // vor und links lenken
+            for (int i = 0; i < 10; i++)
+            {
+                GenerateTestCode(-50, -50);
+            }
+
+            // vor
+            for (int i = 0; i < 3; i++)
+            {
+                GenerateTestCode(-30, 0);
+            }
+
+            // vor und rechts lenken
+            for (int i = 0; i < 12; i++)
+            {
+                GenerateTestCode(-50, 50);
+            }
+
+            // vor
+            for (int i = 0; i < 3; i++)
+            {
+                GenerateTestCode(-30, 0);
+            }
+
+            // zurück
+            for (int i = 0; i < 12; i++)
+            {
+                GenerateTestCode(50, 0);
+            }
+
+            // zurück und links lenken
+            for (int i = 0; i < 12; i++)
+            {
+                GenerateTestCode(50, -50);
+            }
+
+            // zurück und rechts lenken 
+            for (int i = 0; i < 12; i++)
+            {
+                GenerateTestCode(50, 50);
+            }
+        }
+
+
+        private void GenerateTestCode(double pitch, double roll)
+        {
+                string testCode = createCode(pitch, roll);
+                bt.SerialPortArduino.WriteLine(testCode);
+                Thread.Sleep(500);
+        }
+
+
+
+        private void GenerateRandomCodes()
+        {
             int pitch;
             int roll;
-            List<int[]> simulatedValues = new List<int[]>();
 
             //Endlosschleife
             while (true)
@@ -55,9 +127,6 @@ namespace LeapMotionRobot
                 bt.SerialPortArduino.WriteLine(simCode);
                 Thread.Sleep(500);
             }
-
-            //////////////////////////////// SIMULATION ENDE //////////////////////////////////////
-
         }
 
 
