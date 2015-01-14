@@ -1,8 +1,5 @@
 #include <SoftwareSerial.h>
-SoftwareSerial Blt(11,12);
-
-#define motorLinks 3
-#define motorRechts 13
+SoftwareSerial Blt(4,7);
 
 char input[100];
 char delimiter[] = "AB";
@@ -35,8 +32,6 @@ void loop() {
   
   // läuft bei ihm
   
-  Serial.print("Input:    ");
-  Serial.println(input);
   
   ptr = strtok(input, delimiter);
   
@@ -46,13 +41,14 @@ void loop() {
   
   motorlenk = atoi(ptr);
   
+  
+  
   test();
   
-  delay(500);
+  delay(300);
   
-  
-  
-  Serial.println();
+  Serial.println(motorgas);
+  Serial.println(motorlenk);
   
   
   
@@ -64,32 +60,27 @@ void loop() {
 void test(){
   
   
-  if( motorgas >= 100)
+  if( (motorgas >= 100) && (motorlenk == 100))
   {
     zustandMotorLinks = 1;
-    digitalWrite(motorLinks, zustandMotorLinks);
+    Motor1Back();
     zustandMotorRechts = 1;
-    digitalWrite(motorRechts, zustandMotorRechts);
+    Motor2Back();
     
-    Serial.println("Motor vor");
-    
-  }else if(motorgas < 100 && motorgas >= 0)
+  }else if((motorgas < 100 && motorgas >= 0) && (motorlenk == 100))
   {
       zustandMotorRechts = 0;
-      digitalWrite(motorRechts, zustandMotorRechts);
+      Motor1Vor();
       zustandMotorLinks = 0;
-      digitalWrite(motorLinks, zustandMotorLinks);
-      
-      Serial.println("Motor zuruck");
-      
+      Motor2Vor();
   }
   
   if( (motorlenk >= 0) && (motorlenk < 100) )
   {
     zustandMotorLinks = 0;
-    digitalWrite(motorLinks, zustandMotorLinks);
+    Motor1Back();
     zustandMotorRechts = 1;
-    digitalWrite(motorRechts, zustandMotorRechts);
+    Motor2Vor();
     
     Serial.println("Motor left");
     
@@ -98,12 +89,44 @@ void test(){
   if( (motorlenk <= 200) && (motorlenk > 100))
   {
     zustandMotorRechts = 0;
-    digitalWrite(motorRechts, zustandMotorRechts);
+    Motor2Back();
     zustandMotorLinks = 1;
-    digitalWrite(motorLinks, zustandMotorLinks);
+    Motor1Vor();
     
     Serial.println("Motor rechts");
     
   }
   
+}
+
+
+void Motor1Vor()
+{
+  digitalWrite(12, HIGH);
+  digitalWrite(9, LOW);
+  analogWrite(3, 255);
+}
+
+
+void Motor1Back()
+{
+  digitalWrite(12, LOW);
+  digitalWrite(9, LOW);
+  analogWrite(3, 255);
+}
+
+
+void Motor2Vor()
+{
+  digitalWrite(13, HIGH);
+  digitalWrite(8, LOW);
+  analogWrite(11, 255);
+}
+
+
+void Motor2Back()
+{
+  digitalWrite(13, LOW);
+  digitalWrite(8, LOW);
+  analogWrite(11, 255);  
 }
