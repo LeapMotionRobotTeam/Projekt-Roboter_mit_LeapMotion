@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Leap;
 using System.Threading;
 using LeapMotionRobot.classes;
+using System.IO;
 
 
 namespace LeapMotionRobot
@@ -27,107 +28,20 @@ namespace LeapMotionRobot
 
         public override void OnInit(Controller controller)
         {
-            SafeWriteLine("Initialized");
+            SafeWriteLine("Initialisiert");
 
-           
-            bt.SerialPortArduino.Open();
-
-            //////////////////////////////////// CODE SIMULATION UND SENDEN DES CODES (WENN LEAP MOTION FEHLT) - 
-            // unbedingt entfernen wenn Daten über LeapMotion eingelesen werden sollen ///////////////////////////////////////////////
-
-          //  GenerateRandomCodes();
-
-            GenerateTestLauf();
-
-            //////////////////////////////// SIMULATION ENDE //////////////////////////////////////
-
-        }
-
-        private void GenerateTestLauf()
-        {
-            GenerateTestCode(0, 0);
-
-            // vor
-            for (int i = 0; i < 10; i++)
+            try
             {
-                GenerateTestCode(-50, 0);
+                bt.SerialPortArduino.Open(); // TODO Exception abfangen
             }
-
-            // vor und links lenken
-            for (int i = 0; i < 10; i++)
+            catch (Exception e)
             {
-                GenerateTestCode(-50, -50);
-            }
-
-            // vor
-            for (int i = 0; i < 3; i++)
-            {
-                GenerateTestCode(-30, 0);
-            }
-
-            // vor und rechts lenken
-            for (int i = 0; i < 12; i++)
-            {
-                GenerateTestCode(-50, 50);
-            }
-
-            // vor
-            for (int i = 0; i < 3; i++)
-            {
-                GenerateTestCode(-30, 0);
-            }
-
-            // zurück
-            for (int i = 0; i < 12; i++)
-            {
-                GenerateTestCode(50, 0);
-            }
-
-            // zurück und links lenken
-            for (int i = 0; i < 12; i++)
-            {
-                GenerateTestCode(50, -50);
-            }
-
-            // zurück und rechts lenken 
-            for (int i = 0; i < 12; i++)
-            {
-                GenerateTestCode(50, 50);
+                Console.WriteLine("Fehler bei Bluetooth");
+                OnExit(controller);
+                System.Environment.Exit(0);
             }
         }
-
-
-        private void GenerateTestCode(double pitch, double roll)
-        {
-                string testCode = createCode(pitch, roll);
-                bt.SerialPortArduino.WriteLine(testCode);
-                Thread.Sleep(500);
-        }
-
-
-
-        private void GenerateRandomCodes()
-        {
-            int pitch;
-            int roll;
-
-            //Endlosschleife
-            while (true)
-            {
-                Random rnd = new Random();
-                pitch = rnd.Next(-60, 60);
-
-                roll = rnd.Next(-60, 60);
-
-                string simCode = createCode(pitch, roll);
-
-                Console.WriteLine(simCode);
-
-                ///////  Code über BT senden
-                bt.SerialPortArduino.WriteLine(simCode);
-                Thread.Sleep(500);
-            }
-        }
+        
 
 
         public override void OnConnect(Controller controller)
@@ -136,7 +50,7 @@ namespace LeapMotionRobot
             controller.EnableGesture(Gesture.GestureType.TYPE_KEY_TAP);
             controller.EnableGesture(Gesture.GestureType.TYPE_SCREEN_TAP);
             controller.EnableGesture(Gesture.GestureType.TYPE_SWIPE);
-            SafeWriteLine("Connected");
+            SafeWriteLine("Verbunden");
         }
 
 
@@ -144,14 +58,14 @@ namespace LeapMotionRobot
         {
             //Note: not dispatched when running in a debugger.
             bt.SerialPortArduino.Close();
-            SafeWriteLine("Disconnected");
+            SafeWriteLine("Verbindung getrennt");
         }
 
 
         public override void OnExit(Controller controller)
         {
             bt.SerialPortArduino.Close();
-            SafeWriteLine("Exited");
+            SafeWriteLine("Schließen");
         }
 
 
@@ -187,10 +101,18 @@ namespace LeapMotionRobot
 
                 // Code erzeugen und über Bluetooth senden
                 string code = createCode(pitch, roll);
-                bt.SerialPortArduino.WriteLine(code);
 
+                try
+                {
+                    bt.SerialPortArduino.WriteLine(code); // TODO
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine("Fehler: Bluetooth-Device wurde wahrscheinlich entfernt");
+                    OnExit(controller);
+                    System.Environment.Exit(0);
+                }
             }
-
 
 
             // Print an empty line if there is at minimum one hand or one gesture
@@ -199,9 +121,7 @@ namespace LeapMotionRobot
                 SafeWriteLine("");
             }
 
-
-            Thread.Sleep(500);
-
+            Thread.Sleep(200);
         }
 
 
@@ -257,7 +177,7 @@ namespace LeapMotionRobot
                 {
                     double pitchWithoutTolerance;
 
-                    // Abziehen der Toleranz, damit gesamter Prozentbereich ausgeschöpft wird (nur int-Werte) 
+                    // Abziehen der Toleranz, damit 255-80gesamter Prozentbereich ausgeschöpft wird (nur int-Werte) 
                     if (pitch < 0)
                         pitchWithoutTolerance = pitch + tolerancePitch;
                     else
@@ -274,11 +194,9 @@ namespace LeapMotionRobot
                     acceleration = 200;
                 else if(pitch < (maxPitch * (-1)))
                     acceleration = 0;
-
             }
             else //Wert ist innerhalb der Nullzone 
                 acceleration = 100;
-
 
 
             // Wert von roll ist außerhalb der Nullzone = Toleranzzone 
@@ -302,22 +220,16 @@ namespace LeapMotionRobot
                     steering = 200;
                 else
                     steering = 0;
-                
             }
             else
                 steering = 100;
-
-
 
 
             //Zusammensetzen des zu sendenden Codes
             code = "A" + acceleration + ".0" + "B" + steering + ".0";
             Console.WriteLine("Code: " + code);
 
-
             return code;
-
-
         }
     }
 }

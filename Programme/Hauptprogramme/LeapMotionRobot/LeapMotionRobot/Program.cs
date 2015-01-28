@@ -13,7 +13,7 @@ namespace LeapMotionRobot
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Program start");
+            Console.WriteLine("Programm gestartet");
 
             // Create a sample listener and controller
             HandMoves handMoves = new HandMoves();
@@ -21,8 +21,8 @@ namespace LeapMotionRobot
 
             // Have the sample listener receive events from the controller
             controller.AddListener(handMoves);
-
-            Console.WriteLine("Press any key to quit");
+            
+            Console.WriteLine("Beliebige Taste drücken zum Beenden des Programms");
             Console.ReadKey();
 
             // Remove the sample listener when done

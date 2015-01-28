@@ -16,6 +16,7 @@ namespace LeapMotionRobot.classes
         public Bluetooth()
         {
             this.SerialPortArduino = new SerialPort(ARDUINOPORT);
+            this.SerialPortArduino.BaudRate = 9600;
         }
 
 

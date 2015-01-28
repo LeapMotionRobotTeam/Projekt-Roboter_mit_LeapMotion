@@ -17,3 +17,6 @@ D:\Schule\5bHWII\PPM\Köllö\Git-Repo\Projekt-Roboter_mit_LeapMotion\Programme\H
 F:\HTL\PPM\5. Klasse\Köllö\Git-Repo\Projekt-Roboter_mit_LeapMotion\Programme\Hauptprogramme\LeapMotionRobot\LeapMotionRobot\bin\Debug\LeapMotionRobot.exe.config
 F:\HTL\PPM\5. Klasse\Köllö\Git-Repo\Projekt-Roboter_mit_LeapMotion\Programme\Hauptprogramme\LeapMotionRobot\LeapMotionRobot\obj\Debug\LeapMotionRobot.exe
 F:\HTL\PPM\5. Klasse\Köllö\Git-Repo\Projekt-Roboter_mit_LeapMotion\Programme\Hauptprogramme\LeapMotionRobot\LeapMotionRobot\obj\Debug\LeapMotionRobot.pdb
+F:\HTL\PPM\5. Klasse\Köllö\Git-Repo\Projekt-Roboter_mit_LeapMotion\Programme\Hauptprogramme\LeapMotionRobot\LeapMotionRobot\bin\Debug\LeapMotionRobot.exe
+F:\HTL\PPM\5. Klasse\Köllö\Git-Repo\Projekt-Roboter_mit_LeapMotion\Programme\Hauptprogramme\LeapMotionRobot\LeapMotionRobot\bin\Debug\LeapMotionRobot.pdb
+F:\HTL\PPM\5. Klasse\Köllö\Git-Repo\Projekt-Roboter_mit_LeapMotion\Programme\Hauptprogramme\LeapMotionRobot\LeapMotionRobot\obj\Debug\LeapMotionRobot.csprojResolveAssemblyReference.cache
