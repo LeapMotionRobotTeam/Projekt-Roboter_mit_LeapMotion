@@ -17,6 +17,7 @@ int motorgas;
 int motorlenk;
 int zustandMotorLinks;
 int zustandMotorRechts;
+int u;
 
 
 void setup() {
@@ -29,7 +30,6 @@ void setup() {
   pinMode(brakeB, OUTPUT);
   
   Blt.begin(9600);
-  Serial.begin(9600);
   
   Init();
 
@@ -59,12 +59,9 @@ void loop() {
   
   
   
-  test();
+  bewegung();
   
-  delay(300);
-  
-  Serial.println(motorgas);
-  Serial.println(motorlenk);
+  delay(200);
   
 }
 
@@ -79,9 +76,15 @@ void Init()
   delay(200);
 }
 
-void test(){
+void bewegung(){
   
   
+  u = map(motorgas, 100, 200, 80, 255);
+  
+  int z = map(motorlenk, 0, 99, 80, 120);
+  int y = map(motorlenk, 0, 99, 150, 130);
+  int x = map(motorlenk, 101, 200, 130, 150);
+  int c = map(motorlenk, 101, 200, 120, 80);
   
   /*
   Wenn motorlenk genau 100 ist, soll Roboter geradeaus fahren 
@@ -93,18 +96,18 @@ void test(){
   {
     if(motorlenk == 100)
     {
-      Motor1Vor(255);
-      Motor2Vor(255);
+      Motor1Vor(u);
+      Motor2Vor(u);
     }
     else if(motorlenk < 100)
     {
-      Motor1Back(0);
-      Motor2Vor(100);
+      Motor1Vor(z);
+      Motor2Vor(y);
     }
     else if(motorlenk > 100)
     {
-      Motor1Vor(100);
-      Motor2Back(0);
+      Motor1Vor(x);
+      Motor2Vor(c);
     }
     
   } 
@@ -118,13 +121,13 @@ void test(){
     }
     else if(motorlenk < 100)
     {
-      Motor1Back(0);
-      Motor2Vor(100);
+      Motor1Back(z);
+      Motor2Back(y);
     }
     else if(motorlenk > 100)
     {
-      Motor1Vor(100);
-      Motor2Back(0);
+      Motor1Back(x);
+      Motor2Back(c);
     }
   }
   
