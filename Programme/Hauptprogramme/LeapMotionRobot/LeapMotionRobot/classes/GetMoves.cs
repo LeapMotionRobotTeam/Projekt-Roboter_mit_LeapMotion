@@ -8,14 +8,18 @@ using Leap;
 using System.Threading;
 using LeapMotionRobot.classes;
 using System.IO;
+using System.IO.Ports;
 
 
 namespace LeapMotionRobot
 {
+    
     class HandMoves : Listener
     {
         private Object thisLock = new Object();
         Bluetooth bt = new Bluetooth();
+
+
 
         private void SafeWriteLine(String line)
         {
@@ -32,7 +36,7 @@ namespace LeapMotionRobot
 
             try
             {
-                bt.SerialPortArduino.Open(); // TODO Exception abfangen
+                bt.SerialPortArduino.Open();
             }
             catch (Exception e)
             {
@@ -42,7 +46,6 @@ namespace LeapMotionRobot
             }
         }
         
-
 
         public override void OnConnect(Controller controller)
         {
@@ -67,7 +70,6 @@ namespace LeapMotionRobot
             bt.SerialPortArduino.Close();
             SafeWriteLine("Schließen");
         }
-
 
 
         public override void OnFrame(Controller controller)
@@ -168,7 +170,7 @@ namespace LeapMotionRobot
             Console.WriteLine("pitch: " + pitch);
             Console.WriteLine("roll: " + roll);
 
-            pitch = pitch * (-1);
+            pitch *= (-1);
             // Wert von pitch ist außerhalb der Nullzone = Toleranzzone
             if (pitch < (tolerancePitch * (-1)) || (pitch > tolerancePitch))
             {
@@ -200,7 +202,7 @@ namespace LeapMotionRobot
 
 
             // Wert von roll ist außerhalb der Nullzone = Toleranzzone 
-            roll = roll * (-1);
+            roll *= (-1);
             if (roll < (toleranceRoll * (-1)) || roll > toleranceRoll)
             {
                 if (roll > (maxRoll * (-1)) && (roll < (maxRoll)))
@@ -232,4 +234,5 @@ namespace LeapMotionRobot
             return code;
         }
     }
+    
 }

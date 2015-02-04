@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Leap;
+using System.IO.Ports;
 
 
 namespace LeapMotionRobot
@@ -15,17 +16,17 @@ namespace LeapMotionRobot
         {
             Console.WriteLine("Programm gestartet");
 
-            // Create a sample listener and controller
-            HandMoves handMoves = new HandMoves();
+            // Erzeugen eines neuen LeapMotion-Controllers 
+            HandMoves handMoves = new HandMoves(); // Dieses Objekt wird in weiterer Folge als Listener dem Controller übergeben 
             Controller controller = new Controller();
 
-            // Have the sample listener receive events from the controller
+            // Controller soll auf Handbewegungen horchen 
             controller.AddListener(handMoves);
             
             Console.WriteLine("Beliebige Taste drücken zum Beenden des Programms");
             Console.ReadKey();
 
-            // Remove the sample listener when done
+            // Bereinigung durchführen am Ende des Programms 
             controller.RemoveListener(handMoves);
             controller.Dispose();
         }
