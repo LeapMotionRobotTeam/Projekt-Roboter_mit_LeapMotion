@@ -7,7 +7,10 @@ SoftwareSerial Blt(4,7);
 #define speedB 11
 #define brakeA 9
 #define brakeB 8
+#define led 10
 
+const int IRsensor = A2;
+int distanz;
 char input[100];
 char delimiter[] = "AB"; // Trennzeichen
 char * ptr;
@@ -18,9 +21,15 @@ int motorlenk;
 int zustandMotorLinks;
 int zustandMotorRechts;
 int u;
+unsigned long interval=200;
+unsigned long previousMillis=0;
 
 
 void setup() {
+  
+  pinMode(IRsensor, INPUT);
+  pinMode(led, OUTPUT);
+  digitalWrite(led, LOW);
   
   pinMode(directionA, OUTPUT);
   pinMode(directionB, OUTPUT);
@@ -28,7 +37,6 @@ void setup() {
   pinMode(speedB, OUTPUT);
   pinMode(brakeA, OUTPUT);
   pinMode(brakeB, OUTPUT);
-  
   Blt.begin(9600);
   
   Init();
@@ -37,33 +45,38 @@ void setup() {
 
 void loop() {
   
-  
-  indexWert = 0;
-  
-  while(Blt.available())
+  if ((unsigned long)(millis() - previousMillis) >= interval)
   {
-    input[indexWert] = Blt.read();
-    indexWert++;
+    previousMillis = millis();
+    indexWert = 0;
+  
+    while(Blt.available())
+    {
+      input[indexWert] = Blt.read();
+      indexWert++;
+    }
+    
+    ptr = strtok(input, delimiter);
+    
+    motorgas = atoi(ptr);
+    
+    ptr = strtok(NULL, delimiter);
+    
+    motorlenk = atoi(ptr);
   }
   
-  // läuft bei ihm
   
   
-  ptr = strtok(input, delimiter);
   
-  motorgas = atoi(ptr);
-  
-  ptr = strtok(NULL, delimiter);
-  
-  motorlenk = atoi(ptr);
-  
+  MauerCheck();
   
   
   bewegung();
   
-  delay(200);
   
 }
+
+
 
 void Init()
 {
@@ -131,8 +144,51 @@ void bewegung(){
     }
   }
   
+  
+  
 }
 
+void MauerCheck()
+{
+  
+  distanz = analogRead(IRsensor);
+  digitalWrite(led, LOW);
+  
+  if(distanz > 300)
+  {
+    digitalWrite(led, HIGH);
+    
+    if(distanz > 600)
+    {
+      digitalWrite(brakeA, HIGH);
+      digitalWrite(brakeB, HIGH);
+      digitalWrite(led, LOW);
+      delay(200);
+      digitalWrite(led, HIGH);
+      delay(200);
+      digitalWrite(led, LOW);
+      delay(200);
+      digitalWrite(led, HIGH);
+      delay(200);
+      digitalWrite(led, LOW);
+      delay(200);
+      digitalWrite(led, HIGH);
+      delay(200);
+      digitalWrite(led, LOW);
+      Motor2Back(100);
+      Motor1Back(100);
+      delay(1000);
+      Motor1Vor(255);
+      delay(700);
+      Motor1Vor(100);
+      Motor2Vor(100);
+    }
+    
+  }
+  
+  
+  
+}
 
 
 void Motor2Vor(int v)
